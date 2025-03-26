@@ -27,19 +27,19 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to EC2') {
-            steps {
-                sshagent(credentials: ['ec2-ssh-credentials']) {
-                    sh """
-                        ssh -o StrictHostKeyChecking=no ${params.EC2_HOST} '
-                            docker pull ${params.IMAGE_NAME}:${IMAGE_TAG} &&
-                            docker stop \$(docker ps -q --filter ancestor=${params.IMAGE_NAME}:${IMAGE_TAG}) || true &&
-                            docker rm \$(docker ps -a -q --filter ancestor=${params.IMAGE_NAME}:${IMAGE_TAG}) || true &&
-                            docker run -d -p 8088:8088 ${params.IMAGE_NAME}:${IMAGE_TAG}
-                        '
-                    """
-                }
-            }
-        }
+        // stage('Deploy to EC2') {
+        //     steps {
+        //         sshagent(credentials: ['ec2-ssh-credentials']) {
+        //             sh """
+        //                 ssh -o StrictHostKeyChecking=no ${params.EC2_HOST} '
+        //                     docker pull ${params.IMAGE_NAME}:${IMAGE_TAG} &&
+        //                     docker stop \$(docker ps -q --filter ancestor=${params.IMAGE_NAME}:${IMAGE_TAG}) || true &&
+        //                     docker rm \$(docker ps -a -q --filter ancestor=${params.IMAGE_NAME}:${IMAGE_TAG}) || true &&
+        //                     docker run -d -p 8088:8088 ${params.IMAGE_NAME}:${IMAGE_TAG}
+        //                 '
+        //             """
+        //         }
+        //     }
+        // }
     }
 }
